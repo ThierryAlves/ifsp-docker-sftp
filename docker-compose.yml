@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  sftp:
+    image: atmoz/sftp
+    volumes:
+      - sftp_data:/home/foo/upload
+    ports:
+      - "22:22"
+    command: foo:pass:1001
+
+  filebrowser:
+    image: filebrowser/filebrowser
+    volumes:
+      - sftp_data:/srv
+    ports:
+      - "8080:80"
+    environment:
+      - FB_BASEURL=/
+    networks:
+      - internal_net
+
+networks:
+  internal_net:
+
+volumes:
+  sftp_data:
